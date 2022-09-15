@@ -1,6 +1,5 @@
 const { initializeApp, cert, getApps } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
-const { app } = require('firebase-admin');
 
 const serviceAccount = {
     "type": "service_account",
@@ -21,12 +20,6 @@ if (!getApps().length) {
     });
 }
 
-const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-};
-
 exports.handler = async (event) => {
     if (event.httpMethod === "POST") {
         const db = getFirestore();
@@ -35,13 +28,11 @@ exports.handler = async (event) => {
         if (!doc.exists)
             return {
                 statusCode: 404,
-                headers: headers,
                 body: JSON.stringify({})
             };
         else
             return {
                 statusCode: 200,
-                header: headers,
                 body: JSON.stringify(doc.data())
             };
     }

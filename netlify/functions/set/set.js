@@ -14,12 +14,6 @@ const serviceAccount = {
     "client_x509_cert_url": process.env.CLIENT_CERT
 };
 
-const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-};
-
 if (!getApps().length) {
     initializeApp({
         credential: cert(serviceAccount)
@@ -33,7 +27,6 @@ exports.handler = async (event) => {
         const doc = await ref.add(JSON.parse(event.body));
         return {
             statusCode: 200,
-            header: headers,
             body: JSON.stringify({ id: doc.id })
         };
     }
