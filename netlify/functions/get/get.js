@@ -35,6 +35,7 @@ exports.handler = async (event) => {
         if (!doc.exists)
             return {
                 statusCode: 404,
+                headers: headers,
                 body: JSON.stringify({})
             };
         else
