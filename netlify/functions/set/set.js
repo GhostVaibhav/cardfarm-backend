@@ -1,6 +1,14 @@
 const { initializeApp, cert, getApps } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
+let HEADERS = {
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '8640'
+}
+HEADERS['Access-Control-Allow-Origin'] = '*'
+HEADERS['Vary'] = 'Origin'
+
 const serviceAccount = {
     "type": "service_account",
     "project_id": process.env.PROJECT_ID,
@@ -27,7 +35,8 @@ exports.handler = async (event) => {
         const doc = await ref.add(JSON.parse(event.body));
         return {
             statusCode: 200,
-            body: JSON.stringify({ id: doc.id })
+            body: JSON.stringify({ id: doc.id }),
+            HEADERS
         };
     }
 }
