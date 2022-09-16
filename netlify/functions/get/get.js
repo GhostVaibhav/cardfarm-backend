@@ -37,13 +37,13 @@ exports.handler = async (event) => {
             return {
                 statusCode: 404,
                 body: JSON.stringify({}),
-                HEADERS
+                header: JSON.stringify(HEADERS)
             };
         else
             return {
                 statusCode: 200,
                 body: JSON.stringify(doc.data()),
-                HEADERS
+                header: JSON.stringify(HEADERS)
             };
     }
 }
