@@ -4,10 +4,10 @@ const { getFirestore } = require('firebase-admin/firestore');
 let HEADERS = {
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Max-Age': '8640'
+    'Access-Control-Max-Age': '8640',
+    'Access-Control-Allow-Origin': '*',
+    'Vary': 'Origin'
 }
-HEADERS['Access-Control-Allow-Origin'] = '*'
-HEADERS['Vary'] = 'Origin'
 
 const serviceAccount = {
     "type": "service_account",
