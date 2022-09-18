@@ -1,13 +1,11 @@
 const { initializeApp, cert, getApps } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
-let HEADERS = {
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Max-Age': '8640',
+const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
-    'Vary': 'Origin'
-}
+    'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept',
+};
 
 const serviceAccount = {
     "type": "service_account",
@@ -29,14 +27,23 @@ if (!getApps().length) {
 }
 
 exports.handler = async (event) => {
-    if (event.httpMethod === "POST") {
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+        }
+    }
+    else if (event.httpMethod === "POST") {
         const db = getFirestore();
         const ref = db.collection("cards");
         const doc = await ref.add(JSON.parse(event.body));
         return {
             statusCode: 200,
             body: JSON.stringify({ id: doc.id }),
-            headers: JSON.stringify(HEADERS)
+            headers: {
+                ...CORS_HEADERS,
+                'Content-Type': 'application/json',
+            }
         };
     }
 }
