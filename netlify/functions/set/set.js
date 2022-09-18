@@ -5,6 +5,7 @@ const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers':
         'Origin, X-Requested-With, Content-Type, Accept',
+    'Content-Type': 'application/json; charset=utf-8'
 };
 
 const serviceAccount = {
@@ -37,12 +38,12 @@ exports.handler = async (event) => {
         const db = getFirestore();
         const ref = db.collection("cards");
         const doc = await ref.add(JSON.parse(event.body));
+        const response = JSON.stringify({ id: doc.id });
         return {
             statusCode: 200,
-            body: JSON.stringify({ id: doc.id }),
+            body: response,
             headers: {
                 ...CORS_HEADERS,
-                'Content-Type': 'application/json',
             }
         };
     }
